@@ -43,7 +43,7 @@ require 'scraperwiki/simple_html_dom.php';
 					$RecordLoop+=  1;
 					$paginationlink		=	$urlofpage.'&pagenum='.$RecordLoop;
 					$mainpageofprofiles 		=	file_get_html($paginationlink);
-					sleep(4);
+					sleep(8);
 					$checkerprofile	=	$mainpageofprofiles->find("/html/body/div/div[3]/form/input[3]",0);
 			
 			
@@ -69,7 +69,7 @@ require 'scraperwiki/simple_html_dom.php';
 							//This is for Full Document	
 							$fulldocument	=	$element->find("//a[plaintext^=Full Document]", 0)->href;
 														 
-						//  End if nor more records
+						//  insert
 							 $record = array( 'vsname' =>$vsname,
 									 'link' =>$link,
 									 'pagelink' => $pagelink,
