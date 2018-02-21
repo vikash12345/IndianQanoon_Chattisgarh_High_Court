@@ -4,7 +4,9 @@
 require 'scraperwiki.php';
 require 'scraperwiki/simple_html_dom.php';
 //require	'simple_html_dom.php';
-	$browser	=	file_get_html('https://indiankanoon.org/browse');
+					  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record); 
+	
+$browser	=	file_get_html('https://indiankanoon.org/browse');
 	foreach($browser->find("//td/div[@class='browselist']/")as $element)
 	{
 	$page 		=	$element->find("a[plaintext^=	Chattisgarh High Court]",0)->href;
@@ -45,7 +47,6 @@ require 'scraperwiki/simple_html_dom.php';
 					$mainpageofprofiles 		=	file_get_html($paginationlink);
 					sleep(8);
 					$checkerprofile	=	$mainpageofprofiles->find("/html/body/div/div[3]/form/input[3]",0);
-					  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record); 
 
 			
 					
