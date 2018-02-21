@@ -1,15 +1,21 @@
-<?
+<?php
 // This is a template for a PHP scraper on morph.io (https://morph.io)
 // including some code snippets below that you should find helpful
 require 'scraperwiki.php';
 require 'scraperwiki/simple_html_dom.php';
-	$browser	=	file_get_html('https://indiankanoon.org/browse');
+//require	'simple_html_dom.php';
+					  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record); 
+	
+$browser	=	file_get_html('https://indiankanoon.org/browse');
 	foreach($browser->find("//td/div[@class='browselist']/")as $element)
 	{
-	$page 		=	$element->find("a",0)->href;
-	$pagetext	=	$element->find("a",0)->plaintext;
+	$page 		=	$element->find("a[plaintext^=	Chattisgarh High Court]",0)->href;
+	$pagetext	=	$element->find("a[plaintext^=	Chattisgarh High Court]	",0)->plaintext;
+	
 	if($page)
-	{
+	{	
+		sleep(5);
+		
 		$link	=	'https://indiankanoon.org/'.$page;
 		$pageofyears	=	file_get_html($link);
 		foreach($pageofyears->find("/html/body/div[2]/table/tbody/tr/td/div[@class='browselist']")as $year)
@@ -39,12 +45,13 @@ require 'scraperwiki/simple_html_dom.php';
 					$RecordLoop+=  1;
 					$paginationlink		=	$urlofpage.'&pagenum='.$RecordLoop;
 					$mainpageofprofiles 		=	file_get_html($paginationlink);
+					sleep(8);
 					$checkerprofile	=	$mainpageofprofiles->find("/html/body/div/div[3]/form/input[3]",0);
-			
 			
 					
 					if (!$checkerprofile) 
 								{
+									echo "Scraper Inprogress don't stop -> $pagetext\n";
 									$RecordFlag =   false;
 									break;
 								}			
@@ -62,9 +69,8 @@ require 'scraperwiki/simple_html_dom.php';
 							$lcite	=	$element->find("a[@class='cite_tag']",0)->href;
 							//This is for Full Document	
 							$fulldocument	=	$element->find("//a[plaintext^=Full Document]", 0)->href;
-								
-						echo $pagetext.$yeartext.$monthtext.$paginationlink;
-						//  End if nor more records
+														 
+						//  insert
 							 $record = array( 'vsname' =>$vsname,
 									 'link' =>$link,
 									 'pagelink' => $pagelink,
@@ -74,7 +80,6 @@ require 'scraperwiki/simple_html_dom.php';
 									 'cite' =>$cite,
 									 'lcite' =>$lcite,
 									 'paginationlink' =>$paginationlink);
-		  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record);
 						}
 			}
 		}
