@@ -45,7 +45,8 @@ require 'scraperwiki/simple_html_dom.php';
 					$mainpageofprofiles 		=	file_get_html($paginationlink);
 					sleep(8);
 					$checkerprofile	=	$mainpageofprofiles->find("/html/body/div/div[3]/form/input[3]",0);
-			
+					  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record); 
+
 			
 					
 					if (!$checkerprofile) 
@@ -79,7 +80,6 @@ require 'scraperwiki/simple_html_dom.php';
 									 'cite' =>$cite,
 									 'lcite' =>$lcite,
 									 'paginationlink' =>$paginationlink);
-		  scraperwiki::save(array('vsname','link','pagelink','urlofpage','lvsname','courtname','cite','lcite','paginationlink'), $record); 
 						}
 			}
 		}
